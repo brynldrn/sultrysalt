@@ -48,7 +48,8 @@ let duration;
 let activeItem;
 let currentTime = 0;
 let playbackInterval;
-let VIDEO_ID = '6CgrVt3BGqY';
+// let VIDEO_ID = '6CgrVt3BGqY';
+let VIDEO_ID = 'S8P5wDv1_1g';
 
 // Player Variables
 let PLAYER_VARS = {
@@ -70,7 +71,7 @@ let VIDEO_OBJ = {
 	suggestedQuality: 'hd720'
 }
 
-const segmentDuration = 10;
+const segmentDuration = 3;
 const segments = [
 	segmentDuration*0,
 	segmentDuration*1,
