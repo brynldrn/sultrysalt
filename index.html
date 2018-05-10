@@ -265,6 +265,26 @@ let currentTime = 0;
 let playbackInterval;
 let VIDEO_ID = '6CgrVt3BGqY';
 
+// Player Variables
+let PLAYER_VARS = {
+	autoplay: 1, 
+	autohide: 1, 
+	modestbranding: 0, 
+	rel: 0, 
+	showinfo: 0, 
+	controls: 0,
+	loop: 1, 
+	disablekb: 1, 
+	enablejsapi: 0, 
+	iv_load_policy: 3
+}
+
+// Video Object
+let VIDEO_OBJ = {
+	videoId: VIDEO_ID,
+	suggestedQuality: 'hd720'
+}
+
 const segmentDuration = 10;
 const segments = [
 	segmentDuration*0,
@@ -282,25 +302,27 @@ function documentReady () {
 
 function onYouTubeIframeAPIReady() {
 	player = new YT.Player('hero__video__player', {
-		videoId: VIDEO_ID,
-		playerVars: {
-			// autoplay: 1,
-			loop: 1,
-			controls: 0,
-			enablejsapi: 1,
-			modestbranding: 1,
-			showinfo: 1,
-		},
+		playerVars: PLAYER_VARS,
 		events: {
 			'onReady': onPlayerReady,
+			'onStateChange': onPlayerStateChange
 		}
 	});
 }
 
 function onPlayerReady() {
+	// Loaded video on player on player ready
+	player.loadVideoById(VIDEO_OBJ);
 	duration = player.getDuration();
 	playbackInterval = setInterval(onTimeUpdate, 100);
 	player.playVideo();
+}
+
+// For smooth transition when video reaches the end.
+function onPlayerStateChange(e) {
+	if ( e.data === 0 ) {
+		player.seekTo(segments[0]);
+	}
 }
 
 function onTimeUpdate () {
@@ -321,7 +343,7 @@ function onTimeUpdate () {
 }
 
 function activateItem( itemIndex ) {
-	if ( itemIndex === activeItem || !$titles ) return;
+	if ( itemIndex === activeItem ) return;
 
 	$titles.filter('.active')
 		// Remove active class
