@@ -313,9 +313,10 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady() {
 	// Loaded video on player on player ready
 	player.loadVideoById(VIDEO_OBJ);
+	player.playVideo();
+	player.mute();
 	duration = player.getDuration();
 	playbackInterval = setInterval(onTimeUpdate, 100);
-	player.playVideo();
 }
 
 // For smooth transition when video reaches the end.
