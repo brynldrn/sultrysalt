@@ -84,6 +84,8 @@ function documentReady () {
 	$blackOverlay = $('.hero__black_overlay');
 	$heroContent = $('.hero__content');
 	$heroPlate = $('.hero__plate');
+	// For HTML5 Version only
+	player = $('video#hero__salt_video');
 
 	bindTitleClick();
 
@@ -94,40 +96,60 @@ function documentReady () {
 
 		setTimeout(() => {
 			$heroPlate.addClass('animated');
-		}, 4500)
+		}, 4000)
 	})
-}
 
-
-function onYouTubeIframeAPIReady() {
-	player = new YT.Player('hero__video__player', {
-		playerVars: PLAYER_VARS,
-		events: {
-			'onReady': onPlayerReady,
-			'onStateChange': onPlayerStateChange
-		}
-	});
-}
-
-function onPlayerReady() {
-	// Loaded video on player on player ready
-	player.loadVideoById(VIDEO_OBJ);
-	player.playVideo();
-	player.mute();
-	duration = player.getDuration();
+	// For HTML 5 Version only
 	playbackInterval = setInterval(onTimeUpdate, 100);
 }
 
-// For smooth transition when video reaches the end.
-function onPlayerStateChange(e) {
-	if ( e.data === 0 ) {
-		player.seekTo(segments[0]);
-	}
-}
 
-function onTimeUpdate () {
-	currentTime = player.getCurrentTime();
+// function onYouTubeIframeAPIReady() {
+// 	player = new YT.Player('hero__video__player', {
+// 		playerVars: PLAYER_VARS,
+// 		events: {
+// 			'onReady': onPlayerReady,
+// 			'onStateChange': onPlayerStateChange
+// 		}
+// 	});
+// }
 
+// function onPlayerReady() {
+// 	// Loaded video on player on player ready
+// 	player.loadVideoById(VIDEO_OBJ);
+// 	player.playVideo();
+// 	player.mute();
+// 	duration = player.getDuration();
+// 	playbackInterval = setInterval(onTimeUpdate, 100);
+// }
+
+// // For smooth transition when video reaches the end.
+// function onPlayerStateChange(e) {
+// 	if ( e.data === 0 ) {
+// 		player.seekTo(segments[0]);
+// 	}
+// }
+
+// function onTimeUpdate () {
+// 	currentTime = player.getCurrentTime();
+
+// 	switch( true ) {
+// 		case (currentTime >= segments[2]):
+// 			activateItem(2);
+// 			break;
+// 		case (currentTime >= segments[1]):
+// 			activateItem(1);
+// 			break;
+// 		default:
+// 			activateItem(0);
+// 	}
+
+// 	updateProgessBar();
+// }
+
+// FOR HTML 5 VERSION
+function onTimeUpdate() {
+	currentTime = player[0].currentTime;
 	switch( true ) {
 		case (currentTime >= segments[2]):
 			activateItem(2);
@@ -175,7 +197,9 @@ function updateProgessBar() {
 function bindTitleClick() {
 	$titles.each(function (index) {
 		$(this).click(function () {
-			player.seekTo(segments[index]);
+			// For HTML 5 Version only
+			player[0].currentTime = segments[index];
+			// player.seekTo(segments[index]);
 		});
 	});
 }

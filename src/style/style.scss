@@ -192,15 +192,16 @@ body {
 		}
 	}
 
-	&__video, div#hero__video__player, iframe {
+	&__video, video, div#hero__video__player, iframe {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center center;
+		object-fit: cover;
+		// background-size: cover;
+		// background-repeat: no-repeat;
+		// background-position: center center;
 		z-index: 1;
 		pointer-events: none;
 		overflow: hidden;
