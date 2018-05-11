@@ -66,7 +66,14 @@ body {
     height: 100vh;
     transform: translateY(-100%);
     transition: all 9s ease-in-out;
-    background-color: #000;
+    background: -moz-linear-gradient(top, black 0%, black 65%, rgba(0, 0, 0, 0) 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, black 0%, black 65%, rgba(0, 0, 0, 0) 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, black 0%, black 65%, rgba(0, 0, 0, 0) 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 );
+    /* IE6-9 */
     z-index: 99;
     position: absolute;
     top: 0;
