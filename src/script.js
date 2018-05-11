@@ -81,8 +81,21 @@ const segments = [
 
 function documentReady () {
 	$titles = $('.hero__title');
+	$blackOverlay = $('.hero__black_overlay');
+	$heroContent = $('.hero__content');
+	$heroPlate = $('.hero__plate');
 
 	bindTitleClick();
+
+	// CTA Click
+	$('.hero__cta__button').click(() => {
+		$heroContent.addClass('animated');
+		$blackOverlay.addClass('animated');
+
+		setTimeout(() => {
+			$heroPlate.addClass('animated');
+		}, 4500)
+	})
 }
 
 
@@ -166,3 +179,4 @@ function bindTitleClick() {
 		});
 	});
 }
+

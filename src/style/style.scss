@@ -51,9 +51,31 @@ body {
 	width: 100%;
 	height: 100vh;
 
+	&__black_overlay {
+		width: 100%;
+		height: 100vh;
+		transform: translateY(-100%);
+		transition: all 9s ease-in-out;
+		background-color: $black;
+		z-index: 99;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		&.animated {
+			transform: translateY(0%);
+		}
+	}
+
 	&__content {
 		position: relative;
 		z-index: 5;
+		opacity: 1;
+		transition: opacity .8s ease-in;
+
+		&.animated {
+			opacity: 0;
+		}
 	}
 
 	&__titles {
@@ -170,18 +192,56 @@ body {
 		}
 	}
 
-	&__video {
+	&__video, div#hero__video__player, iframe {
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100%;
+		width: 100vw;
+		height: 100vh;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
 		z-index: 1;
 		pointer-events: none;
+	}
 
-		#hero__video__player {
-			width: 100%;
-			height: 100%;
+	iframe {
+        @media (min-aspect-ratio: 16/9) {
+                height: 300%;
+                top: -100%;
+        }
+        
+        @media (max-aspect-ratio: 16/9) {
+            left: -100%;
+            width: 300%;
+        }
+    }
+
+	&__plate {
+		width: 100%;
+		height: 100vh;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		transform: translateY(100%);
+		transition: transform 5s ease-in-out;
+
+		& > img {
+			width: inherit;
+			height: inherit;
+		}
+
+		&.animated {
+			z-index: 999;
+			transform: translateY(0%);
 		}
 	}
+}
+
+.recipe {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	background-color: $white;
 }

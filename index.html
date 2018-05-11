@@ -61,9 +61,25 @@ body {
   position: relative;
   width: 100%;
   height: 100vh; }
+  .hero__black_overlay {
+    width: 100%;
+    height: 100vh;
+    transform: translateY(-100%);
+    transition: all 9s ease-in-out;
+    background-color: #000;
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0; }
+    .hero__black_overlay.animated {
+      transform: translateY(0%); }
   .hero__content {
     position: relative;
-    z-index: 5; }
+    z-index: 5;
+    opacity: 1;
+    transition: opacity .8s ease-in; }
+    .hero__content.animated {
+      opacity: 0; }
   .hero__titles {
     width: 300px;
     padding-top: 225px;
@@ -147,17 +163,46 @@ body {
       letter-spacing: .88px;
       width: 93px;
       margin-top: 12px; }
-  .hero__video {
+  .hero__video, .hero div#hero__video__player, .hero iframe {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
     z-index: 1;
     pointer-events: none; }
-    .hero__video #hero__video__player {
-      width: 100%;
-      height: 100%; }
+  @media (min-aspect-ratio: 16 / 9) {
+    .hero iframe {
+      height: 300%;
+      top: -100%; } }
+  @media (max-aspect-ratio: 16 / 9) {
+    .hero iframe {
+      left: -100%;
+      width: 300%; } }
+  .hero__plate {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    transform: translateY(100%);
+    transition: transform 5s ease-in-out; }
+    .hero__plate > img {
+      width: inherit;
+      height: inherit; }
+    .hero__plate.animated {
+      z-index: 999;
+      transform: translateY(0%); }
+
+.recipe {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff; }
 
 	</style>
 </head>
@@ -174,6 +219,8 @@ body {
 	<div class="content">
 
 		<div class="hero">
+
+			<div class="hero__black_overlay"></div>
 
 			<div class="hero__content">
 				<div class="hero__titles">
@@ -207,6 +254,16 @@ body {
 				<div id="hero__video__player"></div>
 			</div>
 
+			<div class="hero__plate">
+				<img src="./sampleimg_final.png" alt="">
+			</div>
+
+		</div>
+
+		<div class="recipe">
+			<h1 class="recipe__title">
+				Placeholder Recipe Module block
+			</h1>
 		</div>
 
 	</div>
@@ -296,8 +353,21 @@ const segments = [
 
 function documentReady () {
 	$titles = $('.hero__title');
+	$blackOverlay = $('.hero__black_overlay');
+	$heroContent = $('.hero__content');
+	$heroPlate = $('.hero__plate');
 
 	bindTitleClick();
+
+	// CTA Click
+	$('.hero__cta__button').click(() => {
+		$heroContent.addClass('animated');
+		$blackOverlay.addClass('animated');
+
+		setTimeout(() => {
+			$heroPlate.addClass('animated');
+		}, 4500)
+	})
 }
 
 
@@ -380,6 +450,8 @@ function bindTitleClick() {
 			player.seekTo(segments[index]);
 		});
 	});
-}</script>
+}
+
+</script>
 </body>
 </html>
