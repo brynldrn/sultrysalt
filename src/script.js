@@ -62,7 +62,8 @@ let PLAYER_VARS = {
 	loop: 1, 
 	disablekb: 1, 
 	enablejsapi: 0, 
-	iv_load_policy: 3
+	iv_load_policy: 3,
+	playsinline: 1
 }
 
 // Video Object
