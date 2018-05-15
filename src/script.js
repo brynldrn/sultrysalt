@@ -48,12 +48,33 @@ let duration;
 let activeItem;
 let currentTime = 0;
 let playbackInterval;
+let ctaInstance = {
+	clicked: false,
+	index: null
+};
 // let VIDEO_ID = '6CgrVt3BGqY';
-let VIDEO_ID = 'S8P5wDv1_1g';
+let VIDEO_ID = 'V1jnabiEez0';
+let RECIPE_ID = 'f_FyfpypvO8';
+let recipePlayer;
 
 // Player Variables
 let PLAYER_VARS = {
 	autoplay: 1, 
+	autohide: 1, 
+	modestbranding: 0, 
+	rel: 0, 
+	showinfo: 0, 
+	controls: 0,
+	loop: 1, 
+	disablekb: 1, 
+	enablejsapi: 0, 
+	iv_load_policy: 3,
+	playsinline: 1
+}
+
+// Player Variables
+let PLAYER_VARS_RECIPE = {
+	autoplay: 0, 
 	autohide: 1, 
 	modestbranding: 0, 
 	rel: 0, 
@@ -72,7 +93,12 @@ let VIDEO_OBJ = {
 	suggestedQuality: 'hd720'
 }
 
-const segmentDuration = 3;
+let RECIPE_OBJ = {
+	videoId: RECIPE_ID,
+	suggestedQuality: 'hd720'
+}
+
+const segmentDuration = 4;
 const segments = [
 	segmentDuration*0,
 	segmentDuration*1,
@@ -95,7 +121,17 @@ function documentReady () {
 
 		setTimeout(() => {
 			$heroPlate.addClass('animated');
-		}, 4500)
+		}, 2000)
+
+		ctaInstance.clicked = true;
+		ctaInstance.index = $('.hero__cta__button').data('index');
+	})
+
+	$('.hero__plate').on('transitionend', function() {
+		$('.hero__plate > img').hide();
+		$('.hero__plate iframe, .hero__plate #hero__plate_video').addClass('active');
+		recipePlayer.playVideo();
+		recipePlayer.mute();
 	})
 }
 
@@ -108,6 +144,20 @@ function onYouTubeIframeAPIReady() {
 			'onStateChange': onPlayerStateChange
 		}
 	});
+
+	recipePlayer = new YT.Player('hero__plate_video', {
+		playerVars: PLAYER_VARS_RECIPE,
+		events: {
+			'onReady': onRecipePlayerReady
+		}
+	})
+}
+
+function onRecipePlayerReady() {
+	recipePlayer.loadVideoById(RECIPE_OBJ);
+	recipePlayer.playVideo();
+	recipePlayer.mute();
+	recipePlayer.stopVideo();
 }
 
 function onPlayerReady() {
@@ -129,22 +179,44 @@ function onPlayerStateChange(e) {
 function onTimeUpdate () {
 	currentTime = player.getCurrentTime();
 
-	switch( true ) {
-		case (currentTime >= segments[2]):
-			activateItem(2);
-			break;
-		case (currentTime >= segments[1]):
-			activateItem(1);
-			break;
-		default:
-			activateItem(0);
+	if ( !ctaInstance.clicked ) {
+		switch( true ) {
+			case (currentTime >= segments[2]):
+				activateItem(2);
+				break;
+			case (currentTime >= segments[1]):
+				activateItem(1);
+				break;
+			default:
+				activateItem(0);
+		}
+	
+		updateProgessBar();
+	} else {
+		switch ( ctaInstance.index ) {
+			case 0:
+				if ( currentTime >= ( segments[1] - 1 ) ) {
+					player.seekTo(segments[0]);
+				}
+				break;
+			case 1:
+				if ( currentTime >= ( segments[2] - 1 ) ) {
+					player.seekTo(segments[1]);
+				}
+				break;
+			case 2:
+				if ( currentTime >= ( parseInt(player.getDuration()) - 1 ) ) {
+					player.seekTo(segments[2]);
+				}
+				break;
+		}
 	}
-
-	updateProgessBar();
 }
 
 function activateItem( itemIndex ) {
 	if ( itemIndex === activeItem ) return;
+
+	$('.hero__cta__button').attr('data-index', itemIndex);
 
 	$titles.filter('.active')
 		// Remove active class
