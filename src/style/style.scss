@@ -231,11 +231,13 @@ body {
 		z-index: 0;
 		transform: translateY(100%);
 		transition: transform 5s ease-in-out;
+		overflow: hidden;
 
 		& > img {
 			width: inherit;
 			height: inherit;
 			object-fit: cover;
+			overflow: inherit;
 		}
 
 		& #hero__plate_video, & iframe {
@@ -243,7 +245,7 @@ body {
 			background-size: cover;
 			background-repeat: no-repeat;
 			background-position: center center;
-			overflow: hidden;
+			overflow: inherit;
 
 			&.active {
 				visibility: visible;
