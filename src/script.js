@@ -53,7 +53,7 @@ let ctaInstance = {
 	index: null
 };
 // let VIDEO_ID = '6CgrVt3BGqY';
-let VIDEO_ID = 'V1jnabiEez0';
+let VIDEO_ID = 'xQ1XTHE2OwQ';
 let RECIPE_ID = 'f_FyfpypvO8';
 let recipePlayer;
 
@@ -98,7 +98,7 @@ let RECIPE_OBJ = {
 	suggestedQuality: 'hd720'
 }
 
-const segmentDuration = 4;
+const segmentDuration = 5;
 const segments = [
 	segmentDuration*0,
 	segmentDuration*1,
@@ -195,17 +195,17 @@ function onTimeUpdate () {
 	} else {
 		switch ( ctaInstance.index ) {
 			case 0:
-				if ( currentTime >= ( segments[1] - 1 ) ) {
+				if ( currentTime >= segments[1] ) {
 					player.seekTo(segments[0]);
 				}
 				break;
 			case 1:
-				if ( currentTime >= ( segments[2] - 1 ) ) {
+				if ( currentTime >= segments[2] ) {
 					player.seekTo(segments[1]);
 				}
 				break;
 			case 2:
-				if ( currentTime >= ( parseInt(player.getDuration()) - 1 ) ) {
+				if ( currentTime >= parseInt(player.getDuration()) ) {
 					player.seekTo(segments[2]);
 				}
 				break;
