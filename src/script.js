@@ -53,8 +53,8 @@ let ctaInstance = {
 	index: null
 };
 // let VIDEO_ID = '6CgrVt3BGqY';
-let VIDEO_ID = 'xQ1XTHE2OwQ';
-let RECIPE_ID = 'f_FyfpypvO8';
+let VIDEO_ID = 'Gl3zo5-eBdk';
+let RECIPE_ID = 'a9rD3ulIW70';
 let recipePlayer;
 
 // Player Variables
@@ -74,7 +74,7 @@ let PLAYER_VARS = {
 
 // Player Variables
 let PLAYER_VARS_RECIPE = {
-	autoplay: 0, 
+	autoplay: 1, 
 	autohide: 1, 
 	modestbranding: 0, 
 	rel: 0, 
@@ -125,13 +125,13 @@ function documentReady () {
 
 		ctaInstance.clicked = true;
 		ctaInstance.index = $('.hero__cta__button').data('index');
+		recipePlayer.playVideo();
+		recipePlayer.mute();
 	})
 
 	$('.hero__plate').on('transitionend', function() {
 		$('.hero__plate > img').hide();
 		$('.hero__plate iframe, .hero__plate #hero__plate_video').addClass('active');
-		recipePlayer.playVideo();
-		recipePlayer.mute();
 	})
 }
 
